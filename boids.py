@@ -179,7 +179,6 @@ def main():
     # the following loop is what displays how the boids move around the screen
     while True:
         move_all_boids_to_new_positions(boid_list)
-        time.sleep(0.025)
         for i in range(len(boid_list)):
             c.move(tweet_list[i], boid_list[i].getVelocity()[0], boid_list[i].getVelocity()[1])
 
