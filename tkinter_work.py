@@ -14,7 +14,7 @@ def init_boids():
         for j in range(2):
             pos.append(random.randrange(200, 300))
         for j in range(2):
-            vals.append(random.randrange(-1, 1)/100000000000000)
+            vals.append(random.randrange(-1, 1))
         boid_list.append(boids.Boid((pos[0], pos[1]), (vals[0], vals[1])))
     return boid_list
 
@@ -25,7 +25,7 @@ def main():
     root = Tk()
     title = Label(root, text='Boids Simulation')
     title.pack()
-    img = PhotoImage(file='/Users/shreyanshanand/Documents/Uni/CISC352/boids/arrow.png')
+    img = PhotoImage(file='arrow.png')
 
     tweet_list = []
     c = Canvas(master=root, width=1000, height=800)
@@ -39,7 +39,7 @@ def main():
             boids.move_all_boids_to_new_positions(boid_list)
             print(boid_list[0].getPosition())
             for i in range(len(boid_list)):
-                c.move(tweet_list[i], boid_list[i].getPosition()[0], boid_list[i].getPosition()[1])
+                c.move(tweet_list[i], boid_list[i].getVelocity()[0], boid_list[i].getVelocity()[1])
 
     c.pack()
 
