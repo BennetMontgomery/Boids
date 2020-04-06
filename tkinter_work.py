@@ -40,7 +40,7 @@ def main():
             print(boid_list[0].getPosition())
             for i in range(len(boid_list)):
                 c.move(tweet_list[i], boid_list[i].getVelocity()[0], boid_list[i].getVelocity()[1])
-
+    
     c.pack()
 
     # def move_tweets():

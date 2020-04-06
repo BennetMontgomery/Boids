@@ -53,8 +53,8 @@ def rule1(b, boids):
             pcjx += boid.getPosition()[0]
             pcjy += boid.getPosition()[1]
 
-    pcjx = ((pcjx/(len(boids) - 1)) - b.getPosition()[0])
-    pcjy = ((pcjy/(len(boids) - 1)) - b.getPosition()[1])
+    pcjx = ((pcjx/(len(boids) - 1)) - b.getPosition()[0])/100
+    pcjy = ((pcjy/(len(boids) - 1)) - b.getPosition()[1])/100
 
     return pcjx, pcjy
 
