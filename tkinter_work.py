@@ -15,7 +15,7 @@ def init_boids():
             pos.append(random.randrange(200, 300))
         for j in range(2):
             vals.append(random.randrange(-1, 1)/100000000000000)
-        boid_list.append(boids.Boid((pos[0], pos[1]), (vals[0], vals[1])))
+        boid_list.append(boids.Boid((pos[0], pos[1]), (0, 0)))
     return boid_list
 
 
