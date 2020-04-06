@@ -132,25 +132,25 @@ def move_all_boids_to_new_positions(boids):
 
     return
 
-# def main():
-#     boid1 = Boid((0, 0), (4, 3))
-#     boid2 = Boid((3, 5), (-1, -2))
-#     boid3 = Boid((-1, 4), (1, -1))
-#
-#     boidlist = [boid1, boid2, boid3]
-#
-#     for i in range(0, 10):
-#         move_all_boids_to_new_positions(boidlist)
-#         print("boid1")
-#         print(boid1.getPosition())
-#         print(boid1.getVelocity())
-#         print("boid2")
-#         print(boid2.getPosition())
-#         print(boid2.getVelocity())
-#         print("boid3")
-#         print(boid3.getPosition())
-#         print(boid3.getVelocity())
-#
-#
-# if __name__ == '__main__':
-#     main()
+def main():
+    boid1 = Boid((0, 0), (4, 3))
+    boid2 = Boid((3, 5), (-1, -2))
+    boid3 = Boid((-1, 4), (1, -1))
+
+    boidlist = [boid1, boid2, boid3]
+
+    for i in range(0, 10):
+        move_all_boids_to_new_positions(boidlist)
+        print("boid1")
+        print(boid1.getPosition())
+        print(boid1.getVelocity())
+        print("boid2")
+        print(boid2.getPosition())
+        print(boid2.getVelocity())
+        print("boid3")
+        print(boid3.getPosition())
+        print(boid3.getVelocity())
+
+
+if __name__ == '__main__':
+    main()
