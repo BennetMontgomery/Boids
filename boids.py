@@ -1,5 +1,7 @@
 import math
-
+import random
+import time
+from tkinter import *
 '''
     Boids implementation for assignment 3
 
@@ -13,12 +15,12 @@ import math
 
 class Boid:
     def __init__(self, position, initv):
-        '''
+        """
         Constructor for Boid class
 
         :param position: tuple containing the initial x and y coordinate of the boid
         :param initv: tuple containing the initial x movement and y movement per tick of the boid
-        '''
+        """
 
         self.position = position
         self.vel = initv
@@ -37,13 +39,13 @@ class Boid:
 
 
 def rule1(b, boids):
-    '''
+    """
     Rule 1 implementation of CR's rules
 
     :param b: boid to apply rule to
     :param boids: other boids in system
     :return: rule 1 vector as tuple of x and y movement
-    '''
+    """
 
     pcjx = 0
     pcjy = 0
@@ -60,13 +62,13 @@ def rule1(b, boids):
 
 
 def rule2(b, boids):
-    '''
+    """
     Rule 2 implementation of CR's rules
 
     :param b: boid to apply rule to
     :param boids: other boids in system
     :return: rule 2 vector as tuple of x and y movement
-    '''
+    """
 
     cx = 0
     cy = 0
@@ -84,13 +86,13 @@ def rule2(b, boids):
 
 
 def rule3(b, boids):
-    '''
+    """
     Rule 3 implementation of CR's rules
 
     :param b: boid to apply rule to
     :param boids: other boids in system
     :return: rule 3 vector as tuple of x and y movement
-    '''
+    """
     pvjx = 0
     pvjy = 0
 
@@ -109,12 +111,12 @@ def rule3(b, boids):
 
 
 def move_all_boids_to_new_positions(boids):
-    '''
+    """
     Moves passed list of boids by applying all three of Craig Reynold's rules simultaneously
 
     :param boids: list of boids to move
     :return: void
-    '''
+    """
     for boid in boids:
         v1 = rule1(boid, boids)
         v2 = rule2(boid, boids)
@@ -132,24 +134,58 @@ def move_all_boids_to_new_positions(boids):
 
     return
 
+
+def init_boids():
+    """
+    initializes the boids list
+    :return: a list of boids
+    """
+    boid_list = []
+    # the following for loop places all the boids initially on the grid
+    # to change the number of boids, simply change the for loop condition
+    for i in range(150):
+        vals = []
+        pos = []
+        # the following two for loops were used to randomly create the necessary init vals for the boids
+        for j in range(2):
+            pos.append(random.randrange(305, 455))
+        for j in range(2):
+            vals.append(random.randrange(-1, 1))
+        boid_list.append(Boid((pos[0], pos[1]), (vals[0], vals[1])))
+    return boid_list
+
+
 def main():
-    boid1 = Boid((0, 0), (4, 3))
-    boid2 = Boid((3, 5), (-1, -2))
-    boid3 = Boid((-1, 4), (1, -1))
+    """
+    main function where all the simulation happens.
+    """
+    # inits the boids list
+    boid_list = init_boids()
 
-    boidlist = [boid1, boid2, boid3]
+    # creating the tkinter window
+    root = Tk()
+    title = Label(root, text='Boids Simulation')
+    title.pack()
+    img = PhotoImage(file='arrow.png')
 
-    for i in range(0, 10):
-        move_all_boids_to_new_positions(boidlist)
-        print("boid1")
-        print(boid1.getPosition())
-        print(boid1.getVelocity())
-        print("boid2")
-        print(boid2.getPosition())
-        print(boid2.getVelocity())
-        print("boid3")
-        print(boid3.getPosition())
-        print(boid3.getVelocity())
+    tweet_list = []
+    c = Canvas(master=root, width=1000, height=800)
+    # initializing the tkinter window with the boids list
+    for i in range(len(boid_list)):
+        tweet_list.append(
+            c.create_image(boid_list[i].getPosition()[0], boid_list[i].getPosition()[1], anchor=NW, image=img))
+    c.pack()
+
+    # the following loop is what displays how the boids move around the screen
+    while True:
+        move_all_boids_to_new_positions(boid_list)
+        time.sleep(0.025)
+        for i in range(len(boid_list)):
+            c.move(tweet_list[i], boid_list[i].getVelocity()[0], boid_list[i].getVelocity()[1])
+
+        c.update()
+
+    root.mainloop()
 
 
 if __name__ == '__main__':
