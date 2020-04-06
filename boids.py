@@ -120,8 +120,8 @@ def move_all_boids_to_new_positions(boids):
         v2 = rule2(boid, boids)
         v3 = rule3(boid, boids)
 
-        newvelx = (boid.getVelocity()[0] + v1[0] + v2[0] + v3[0])/100
-        newvely = (boid.getVelocity()[1] + v1[1] + v2[1] + v3[1])/100
+        newvelx = boid.getVelocity()[0] + v1[0] + v2[0] + v3[0]
+        newvely = boid.getVelocity()[1] + v1[1] + v2[1] + v3[1]
 
         boid.setVelocity((newvelx, newvely))
 
