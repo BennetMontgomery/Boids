@@ -61,8 +61,6 @@ def rule1(b, boids):
             pcjy += boid.getPosition()[1]
             numboidsnearby += 1
 
-    # pcjx = ((pcjx / (len(boids) - 1)) - b.getPosition()[0]) / 100
-    # pcjy = ((pcjy / (len(boids) - 1)) - b.getPosition()[1]) / 100
     pcjx /= len(boids)-1
     pcjy /= len(boids)-1
 
@@ -162,7 +160,7 @@ def init_boids():
         pos = []
         # the following two for loops were used to randomly create the necessary init vals for the boids
         for j in range(2):
-            pos.append(random.randrange(305, 455))
+            pos.append(random.randrange(0, 500))
         for j in range(2):
             vals.append(random.randrange(-100, 100))
         boid_list.append(Boid((pos[0], pos[1]), (vals[0], vals[1])))
