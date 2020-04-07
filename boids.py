@@ -50,11 +50,16 @@ def rule1(b, boids):
 
     pcjx = 0
     pcjy = 0
+    numboidsnearby = 1
 
     for boid in boids:
-        if b != boid:
+        xdiff = boid.getPosition()[0] - b.getPosition()[0]
+        ydiff = boid.getPosition()[1] - b.getPosition()[1]
+
+        if math.sqrt((xdiff ** 2) + (ydiff ** 2)) < 100:
             pcjx += boid.getPosition()[0]
             pcjy += boid.getPosition()[1]
+            numboidsnearby += 1
 
     # pcjx = ((pcjx / (len(boids) - 1)) - b.getPosition()[0]) / 100
     # pcjy = ((pcjy / (len(boids) - 1)) - b.getPosition()[1]) / 100
@@ -64,8 +69,8 @@ def rule1(b, boids):
     pcjx -= b.getPosition()[0]
     pcjy -= b.getPosition()[1]
 
-    pcjx /= 1
-    pcjy /= 1
+    pcjx /= numboidsnearby
+    pcjy /= numboidsnearby
 
     return pcjx, pcjy
 
