@@ -176,8 +176,8 @@ def main():
     title = Label(root, text='Boids Simulation')
     title.pack()
     img = PhotoImage(file='arrow.png')
-    board_height = 500
-    board_width = 500
+    board_height = 700
+    board_width = 700
     tweet_list = []
     c = Canvas(master=root, width=board_width, height=board_height, bg="black")
     # initializing the tkinter window with the boids list
