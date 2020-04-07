@@ -2,6 +2,7 @@ import math
 import random
 import time
 from tkinter import *
+
 '''
     Boids implementation for assignment 3
 
@@ -55,8 +56,16 @@ def rule1(b, boids):
             pcjx += boid.getPosition()[0]
             pcjy += boid.getPosition()[1]
 
-    pcjx = ((pcjx/(len(boids) - 1)) - b.getPosition()[0])/100
-    pcjy = ((pcjy/(len(boids) - 1)) - b.getPosition()[1])/100
+    # pcjx = ((pcjx / (len(boids) - 1)) - b.getPosition()[0]) / 100
+    # pcjy = ((pcjy / (len(boids) - 1)) - b.getPosition()[1]) / 100
+    pcjx /= len(boids)-1
+    pcjy /= len(boids)-1
+
+    pcjx -= b.getPosition()[0]
+    pcjy -= b.getPosition()[1]
+
+    pcjx /= 1
+    pcjy /= 1
 
     return pcjx, pcjy
 
@@ -78,7 +87,7 @@ def rule2(b, boids):
             xdiff = boid.getPosition()[0] - b.getPosition()[0]
             ydiff = boid.getPosition()[1] - b.getPosition()[1]
 
-            if math.sqrt((xdiff**2) + (ydiff**2)) < 100:
+            if math.sqrt((xdiff ** 2) + (ydiff ** 2)) < 100:
                 cx -= xdiff
                 cy -= ydiff
 
@@ -101,11 +110,11 @@ def rule3(b, boids):
             pvjx += boid.getVelocity()[0]
             pvjy += boid.getVelocity()[1]
 
-    pvjx /= len(boids) - 1
-    pvjy /= len(boids) - 1
+    pvjx /= (len(boids) - 1)
+    pvjy /= (len(boids) - 1)
 
-    pvjx = (pvjx - b.getVelocity()[0])/8
-    pvjy = (pvjy - b.getVelocity()[1])/8
+    pvjx = (pvjx - b.getVelocity()[0]) / 8
+    pvjy = (pvjy - b.getVelocity()[1]) / 8
 
     return pvjx, pvjy
 
@@ -122,8 +131,8 @@ def move_all_boids_to_new_positions(boids):
         v2 = rule2(boid, boids)
         v3 = rule3(boid, boids)
 
-        newvelx = (boid.getVelocity()[0] + v1[0] + v2[0] + v3[0])/100
-        newvely = (boid.getVelocity()[1] + v1[1] + v2[1] + v3[1])/100
+        newvelx = (boid.getVelocity()[0] + v1[0] + v2[0] + v3[0]) / 10
+        newvely = (boid.getVelocity()[1] + v1[1] + v2[1] + v3[1]) / 10
 
         boid.setVelocity((newvelx, newvely))
 
@@ -143,14 +152,14 @@ def init_boids():
     boid_list = []
     # the following for loop places all the boids initially on the grid
     # to change the number of boids, simply change the for loop condition
-    for i in range(150):
+    for i in range(50):
         vals = []
         pos = []
         # the following two for loops were used to randomly create the necessary init vals for the boids
         for j in range(2):
             pos.append(random.randrange(305, 455))
         for j in range(2):
-            vals.append(random.randrange(-1, 1))
+            vals.append(random.randrange(-100, 100))
         boid_list.append(Boid((pos[0], pos[1]), (vals[0], vals[1])))
     return boid_list
 
@@ -167,9 +176,10 @@ def main():
     title = Label(root, text='Boids Simulation')
     title.pack()
     img = PhotoImage(file='arrow.png')
-
+    board_height = 500
+    board_width = 500
     tweet_list = []
-    c = Canvas(master=root, width=1000, height=800)
+    c = Canvas(master=root, width=board_width, height=board_height, bg="black")
     # initializing the tkinter window with the boids list
     for i in range(len(boid_list)):
         tweet_list.append(
@@ -179,10 +189,25 @@ def main():
     # the following loop is what displays how the boids move around the screen
     while True:
         move_all_boids_to_new_positions(boid_list)
+
         for i in range(len(boid_list)):
+            pos = boid_list[i].getPosition()
+            if pos[0] > board_height:
+                boid_list[i].setPosition((0, pos[1]))
+                c.coords(tweet_list[i], (0, pos[1]))
+            if pos[1] > board_width:
+                boid_list[i].setPosition((pos[0], 0))
+                c.coords(tweet_list[i], (pos[0], 0))
+            if pos[1] < 0:
+                boid_list[i].setPosition((pos[0], board_width))
+                c.coords(tweet_list[i], (pos[0], board_width))
+            if pos[0] < 0:
+                boid_list[i].setPosition((board_height, pos[1]))
+                c.coords(tweet_list[i], (board_height, pos[1]))
             c.move(tweet_list[i], boid_list[i].getVelocity()[0], boid_list[i].getVelocity()[1])
 
         c.update()
+        time.sleep(0.025)
 
     root.mainloop()
 
